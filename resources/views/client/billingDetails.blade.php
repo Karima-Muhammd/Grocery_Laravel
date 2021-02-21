@@ -64,7 +64,7 @@
                             <hr>
                             <p class="d-flex total-price">
                                 <span>Total</span>
-                                <span>${{$cart->totalPrice}}</span>
+                                <span>{{$cart->totalPrice}} EGP</span>
                             </p>
                         </div>
                     </div>

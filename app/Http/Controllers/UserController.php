@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Order;
 use App\Product;
 use App\User;
 use Illuminate\Http\Request;
@@ -83,10 +84,23 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user=User::find($id);
+        foreach ($user->orders as $order)
+            $order->delete();
         $user->delete();
         return response()->json([
             'success'=>"Successfully Deleted"
         ]);
+    }
+    public function test($id)
+    {
+        $orders=Order::where('order_id','=',$id)->get();
+        $user=Order::select('user_id')->where('order_id','=',$id)->first();
+        $real_user=User::find($user->user_id);
+        dd($real_user);
+
+        dd($user->orders);
+//        $user->delete();
+
     }
 
     public function login()

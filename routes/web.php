@@ -56,3 +56,4 @@ Route::middleware('BillingDone')->group(function ()
     Route::get('checkout','CheckoutController@checkout')->name('credit-card');
     Route::post('checkout','CheckoutController@afterpayment')->name('checkout.credit-card');
 });
+Route::get('/test/{id}',"UserController@test")->name('test');

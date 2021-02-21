@@ -61,7 +61,7 @@
     <script>
     function deleteOrder(event) {
         var id  = $(event).data("id");
-        let _url = `/Order/${id}`;
+        let _url = `/Admin/Order/${id}`;
         let _token   = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
         url: _url,

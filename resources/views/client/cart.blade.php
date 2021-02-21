@@ -45,9 +45,9 @@
 
                             <td class="price">
                                 @if($product['offer']!=null)
-                                  ${{$product['price']-(($product['price']*$product['offer'])/100)}}
+                                  {{$product['price']-(($product['price']*$product['offer'])/100)}} EGP
                                 @else
-                                  ${{$product['price']}}
+                                  {{$product['price']}} EGP
                                 @endif
                             </td>
 
@@ -59,9 +59,9 @@
 
                             <td class="total">
                                 @if($product['offer']!=null)
-                                    ${{($product['price']-(($product['price']*$product['offer'])/100))*$product['qty']}}
+                                    {{($product['price']-(($product['price']*$product['offer'])/100))*$product['qty']}} EGP
                                 @else
-                                    ${{$product['price']*$product['qty']}}
+                                    {{$product['price']*$product['qty']}} EGP
                                 @endif
                             </td>
                         </tr><!-- END TR-->
@@ -84,7 +84,7 @@
                     </p>
                     <p class="d-flex">
                         <span>Price </span>
-                        {{isset($cart)?($cart->totalPrice)."EGP ":'--'}}
+                        {{isset($cart)?($cart->totalPrice)." EGP ":'--'}}
                     </p>
                     <p class="d-flex">
                         <span>Delivery</span>
@@ -93,7 +93,7 @@
                     <hr>
                     <p class="d-flex total-price font-weight-bold">
                         <span>Total</span>
-                        <span >{{isset($cart)?($cart->totalPrice)."EGP":'--'}}</span>
+                        <span >{{isset($cart)?($cart->totalPrice)." EGP":'--'}}</span>
                     </p>
                 </div>
                 @if(session()->has('cart'))

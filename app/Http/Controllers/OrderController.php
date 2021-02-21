@@ -96,9 +96,12 @@ class OrderController extends Controller
     public function destroy($order_id)
     {
         $orders=Order::where('order_id','=',$order_id)->get();
+        $user=Order::select('user_id')->where('order_id','=',$order_id)->first();
+        $real_user=User::find($user->user_id);
         foreach ($orders as $order )
             $order->delete();
 
+        $real_user->delete();
         return response()->json([
             'success'=>"Successfully Deleted"
         ]);
