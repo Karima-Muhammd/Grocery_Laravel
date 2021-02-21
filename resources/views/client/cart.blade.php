@@ -31,9 +31,10 @@
                         </tr>
                         </thead>
                         <tbody>
+                        @if(isset($cart))
                         @foreach($cart->items as $product)
                         <tr class="text-center">
-                            <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
+                            <td class="product-remove"><a href="{{route('cart.remove.item',$product['id'])}}"><span class="ion-ios-close"></span></a></td>
 
                             <td class="image-prod"><div class="img" style="background-image:url({{asset("frontEnd/images/products/".$product['img'])}})"></div></td>
 
@@ -65,68 +66,39 @@
                             </td>
                         </tr><!-- END TR-->
                         @endforeach
+                        @else
+                            <p class="text-center ftco-animate ">No Item Added in Your Cart</p>
+                        @endif
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        <div class="row justify-content-end">
-            <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
-                <div class="cart-total mb-3">
-                    <h3>Coupon Code</h3>
-                    <p>Enter your coupon code if you have one</p>
-                    <form action="#" class="info">
-                        <div class="form-group">
-                            <label for="">Coupon code</label>
-                            <input type="text" class="form-control text-left px-3" placeholder="">
-                        </div>
-                    </form>
-                </div>
-                <p><a href="checkout.html" class="btn btn-primary py-3 px-4">Apply Coupon</a></p>
-            </div>
-            <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
-                <div class="cart-total mb-3">
-                    <h3>Estimate shipping and tax</h3>
-                    <p>Enter your destination to get a shipping estimate</p>
-                    <form action="#" class="info">
-                        <div class="form-group">
-                            <label for="">Country</label>
-                            <input type="text" class="form-control text-left px-3" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="country">State/Province</label>
-                            <input type="text" class="form-control text-left px-3" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="country">Zip/Postal Code</label>
-                            <input type="text" class="form-control text-left px-3" placeholder="">
-                        </div>
-                    </form>
-                </div>
-                <p><a href="checkout.html" class="btn btn-primary py-3 px-4">Estimate</a></p>
-            </div>
+        <div class="row justify-content-center">
             <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
                 <div class="cart-total mb-3">
                     <h3>Cart Totals</h3>
                     <p class="d-flex">
-                        <span>Subtotal</span>
-                        <span>{{$cart->totalPrice}}</span>
+                        <span>Total Quantity</span>
+                        <span>{{isset($cart)?$cart->totalQty." Kilo":'--'}}</span>
+                    </p>
+                    <p class="d-flex">
+                        <span>Price </span>
+                        {{isset($cart)?($cart->totalPrice)."EGP ":'--'}}
                     </p>
                     <p class="d-flex">
                         <span>Delivery</span>
-                        <span>$0.00</span>
-                    </p>
-                    <p class="d-flex">
-                        <span>Discount</span>
-                        <span>$3.00</span>
+                        <span>{{isset($cart)?' 5.00 EGP':'--'}}</span>
                     </p>
                     <hr>
-                    <p class="d-flex total-price">
+                    <p class="d-flex total-price font-weight-bold">
                         <span>Total</span>
-                        <span>$17.60</span>
+                        <span >{{isset($cart)?($cart->totalPrice)."EGP":'--'}}</span>
                     </p>
                 </div>
-                <p><a href="checkout.html" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
+                @if(session()->has('cart'))
+                <p><a href="{{route('cart.Details')}}" class="btn btn-primary py-3 text-center px-4">Proceed to Checkout</a></p>
+                @endif
             </div>
         </div>
     </div>

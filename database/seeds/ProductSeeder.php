@@ -11,6 +11,7 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
+       ;
         Product::create([
             'name' => "BELL PEPPER", 'quantity' =>50, 'price' => 80,
             'img'=>'product-1.jpg','category_id'=>2,'status'=>1,'offer'=>30

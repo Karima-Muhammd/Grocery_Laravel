@@ -13,6 +13,6 @@
 <script src="{{asset('frontEnd/js/jquery.animateNumber.min.js')}}"></script>
 <script src="{{asset('frontEnd/js/bootstrap-datepicker.js')}}"></script>
 <script src="{{asset('frontEnd/js/scrollax.min.js')}}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+
 <script src="{{asset('frontEnd/js/google-map.js')}}"></script>
 <script src="{{asset('frontEnd/js/main.js')}}"></script>

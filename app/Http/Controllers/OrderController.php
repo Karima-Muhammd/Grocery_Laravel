@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Order;
+use App\User;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -13,7 +15,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return  view('inc_admin.order.show_table');
+        $orders=Order::get()->unique('order_id');
+        return  view('admin.orders.index',['orders'=>$orders]);
 
     }
 
@@ -42,11 +45,13 @@ class OrderController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
-    public function show($id)
+    public function show($order_id)
     {
-        //
+
+        $order_details=Order::where('order_id','=',$order_id)->get();
+        return view('admin.orders.view',['order'=>$order_details]);
     }
 
     /**
@@ -71,15 +76,31 @@ class OrderController extends Controller
     {
         //
     }
+    public function save(Request $request, $order_id)
+    {
+        $orders=Order::where('order_id','=',$order_id)->get();
+        foreach ($orders as $order)
+        {
+            $order->status=$request->status;
+            $order->save();
+        }
+        return response()->json(['success'=>'Status updated Successfully']);
+    }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy($order_id)
     {
-        //
+        $orders=Order::where('order_id','=',$order_id)->get();
+        foreach ($orders as $order )
+            $order->delete();
+
+        return response()->json([
+            'success'=>"Successfully Deleted"
+        ]);
     }
 }

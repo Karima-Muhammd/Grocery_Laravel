@@ -34,6 +34,7 @@ class Cart
             'img'=>$product->img,
             'offer'=>$product->offer,
             'category_id'=>$product->category_id,
+            'id'=>$product->id,
             'qty'=>0
         ];
         //if array exist in cart array
@@ -49,6 +50,13 @@ class Cart
             $this->totalPrice+=$product->price;
         }
         $this->items[$product->id]['qty']+=1;
+    }
+    public function remove($id)
+    {
+        $this->totalQty-=$this->items[$id]['qty'];
+        $this->totalPrice-=$this->items[$id]['price']*$this->items[$id]['qty'];
+        unset($this->items[$id]);
+        print_r($this->items);
     }
 
 }

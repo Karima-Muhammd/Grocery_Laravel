@@ -169,26 +169,42 @@ class ProductController extends Controller
         return response()->json();
 
     }
-    public function AddToCart($id){
-        $product=Product::find($id);
-        if(session()->has('cart'))
-            $cart=new Cart(session()->get('cart'));
-        else
-            $cart=new Cart();
-        $cart->add($product);
-        session()->put('cart',$cart);
-        return redirect()->route('shop');
+    public function AddToCart(Request $request,$id){
+        if($request->ajax()) {
+            $product = Product::find($id);
+            if (session()->has('cart'))
+                $cart = new Cart(session()->get('cart'));
+            else
+                $cart = new Cart();
+            $cart->add($product);
+            session()->put('cart', $cart);
+            return response()->json();
+        }
     }
     public function Viewcart()
     {
-        if(session()->has('cart'))
-            $cart=new Cart(session()->get('cart'));
-        else
-            $cart=new Cart();
-
+        $cart=session()->has('cart')?new Cart(session()->get('cart')):null;
         return view('client.cart',
             [
                 'cart'=>$cart,
             ]);
+    }
+    public function RemoveItemCart($id)
+    {
+        $cart=session()->has('cart')?new Cart(session()->get('cart')):null;
+        $cart->remove($id);
+        count($cart->items)>0?session()->put('cart',$cart):session()->forget('cart');
+        return redirect()->route('cart.view');
+
+    }
+    public function BillingDetails()
+    {
+        if (session()->has('cart'))
+            $cart=new Cart(session()->get('cart'));
+        else
+            return redirect('client.cart');
+
+        session()->put('cart',$cart);
+        return view('client.billingDetails',['cart'=>$cart]);
     }
 }

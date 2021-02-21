@@ -54,8 +54,8 @@
                                     <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
                                         <span><i class="ion-ios-menu"></i></span>
                                     </a>
-                                    <a href="{{route('cart.add',$product->id)}}" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                        <span><i class="ion-ios-cart"></i></span>
+                                    <a type="submit"  class=" btn buy-now d-flex justify-content-center align-items-center">
+                                        <i data-id="{{$product->id}}" onclick="addProduct(event.target)"  class="ion-ios-cart"></i>
                                     </a>
                                     <a href="#" class="heart d-flex justify-content-center align-items-center ">
                                         <span><i class="ion-ios-heart"></i></span>
@@ -79,3 +79,39 @@
 @endsection
 
 
+@section('script')
+    <script src="{{asset('frontEnd/js/jquery-3.5.1.min.js')}}"></script>
+
+    <script>
+        function addProduct(event) {
+
+            var id='';
+            id  = $(event).data("id");
+            console.log(id);
+            let _url = `/addCart/${id}`;
+            console.log(_url);
+
+            let _token   = $('meta[name="csrf-token"]').attr('content');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': _token
+                }
+            });
+            $.ajax({
+                url: _url,
+                type: 'get',
+                data: {
+                    _token: _token
+                },
+                success: function(response) {
+                    var card_items=parseInt(document.getElementById('totalCart').innerText);
+                    card_items+=1;
+                    document.getElementById('totalCart').innerText=card_items;
+
+                }
+            });
+        }
+
+    </script>
+
+@endsection

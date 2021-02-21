@@ -14,23 +14,45 @@ use Illuminate\Support\Facades\Route;
 */
 
 //inc_client routes
-Route::get('/','ClientController@home')->name('home');
-Route::get('/shop','ClientController@shop')->name('shop');
-Route::get('/check-out','ClientController@checkout')->name('checkout');
-Route::get('/login','ClientController@login')->name('login');
-Route::get('/register','ClientController@register')->name('register');
+Route::get('/','UserController@home')->name('home');
+Route::get('/shop','UserController@shop')->name('shop');
+Route::get('/check-out','UserController@checkout')->name('checkout');
+Route::get('/register','UserController@register')->name('register');
 
 
 //inc_admin routes
-Route::get('/admin','AdminController@dashboard')->name('dashboard');
+Route::middleware('IsAdmin')->prefix('/Admin')->group(function (){
+
+    Route::get('/User','UserController@index')->name('User.index');
+    Route::post('/User/{id}','UserController@show')->name('User.show');
+    Route::get('/User/{id}','UserController@edit')->name('User.edit');
+    Route::post('/User/edit/{id}','UserController@update')->name('User.update');
+    Route::delete('/User/{id}','UserController@destroy')->name('User.delete');
+    Route::resource('Order','OrderController');
+    Route::post('/Order/save/{id}','OrderController@save')->name('Status.save');
+    Route::get('/logout/','UserController@logout')->name('Admin.logout');
+    Route::resource('order','OrderController');
+    Route::get('/Panel',"UserController@index_admin")->name('admin_index');
+
+});
+Route::middleware('Not_Authenticated')->group(function (){
+    Route::get('/login','UserController@login')->name('login');
+    Route::post('/login','UserController@do_login')->name('Admin.do.login');
+});
+//admin dashboard
 
 //category
 Route::resource('category','CategoryController');
 Route::resource('product','ProductController');
+//guest
 Route::get('/addCart/{id}','ProductController@AddToCart')->name('cart.add');
 Route::get('/shopping-cart','ProductController@Viewcart')->name('cart.view');
+Route::get('/RemoveItem/{id}','ProductController@RemoveItemCart')->name('cart.remove.item');
+Route::get('/Billing-Details','ProductController@BillingDetails')->name('cart.Details');
+Route::post('/Billing-Details-','UserController@store')->name('save.order');
 
-Route::resource('order','OrderController');
-Route::get('/client/table','ClientController@show_all_products')->name('show_table_product');
-//orders
-Route::get('/Order/table','AdminController@show_orders')->name('show_table_orders');
+Route::middleware('BillingDone')->group(function ()
+{
+    Route::get('checkout','CheckoutController@checkout')->name('credit-card');
+    Route::post('checkout','CheckoutController@afterpayment')->name('checkout.credit-card');
+});

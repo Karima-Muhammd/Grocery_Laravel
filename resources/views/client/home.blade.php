@@ -3,7 +3,6 @@
     Home
 @endsection
 @section('content')
-
 <section id="home-section" class="hero">
     <div class="home-slider owl-carousel">
         <div class="slider-item" style="background-image: url({{asset('frontEnd/images/bg_1.jpg')}});">
@@ -132,10 +131,10 @@
                         <div class="d-flex">
                             <div class="pricing">
                                 @if($product->offer!=null)
-                                <p class="price"><span class="mr-2 price-dc">${{$product->price}}</span>
-                                  <span class="price-sale"> ${{$product->price-(($product->price*$product->offer)/100)}} </span></p>
+                                <p class="price"><span class="mr-2 price-dc">{{$product->price}} EGP</span>
+                                  <span class="price-sale"> {{$product->price-(($product->price*$product->offer)/100)}} EGP </span></p>
                                 @else
-                                    <span class="price-sale"> ${{$product->price}} </span></p>
+                                    <span class="price-sale"> {{$product->price}} EGP </span>
                                 @endif
                             </div>
                         </div>
@@ -144,8 +143,8 @@
                                 <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
                                     <span><i class="ion-ios-menu"></i></span>
                                 </a>
-                                <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                    <span><i class="ion-ios-cart"></i></span>
+                                <a type="submit"  class=" btn buy-now d-flex justify-content-center align-items-center">
+                                    <i data-id="{{$product->id}}" onclick="addProduct(event.target)"  class="ion-ios-cart"></i>
                                 </a>
                                 <a href="#" class="heart d-flex justify-content-center align-items-center ">
                                     <span><i class="ion-ios-heart"></i></span>
@@ -192,7 +191,7 @@
                 <div class="carousel-testimony owl-carousel">
                     <div class="item">
                         <div class="testimony-wrap p-4 pb-5">
-                            <div class="user-img mb-5" style="background-image: url({{asset('frontEnd/images/person_1.jpg')}})">
+                            <div class="user-i mg mb-5"  style="background-image: url({{asset('frontEnd/images/person_1.jpg')}})">
                     <span class="quote d-flex align-items-center justify-content-center">
                       <i class="icon-quote-left"></i>
                     </span>
@@ -213,7 +212,7 @@
                             </div>
                             <div class="text text-center">
                                 <p class="mb-5 pl-4 line">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                <p class="name">Garreth Smith</p>
+                                <p class="name" >Garreth Smith</p>
                                 <span class="position">Interface Designer</span>
                             </div>
                         </div>
@@ -226,9 +225,10 @@
                     </span>
                             </div>
                             <div class="text text-center">
-                                <p class="mb-5 pl-4 line">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                <p class="name">Garreth Smith</p>
+                                <p class="mb-5 pl-4 line" >Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
                                 <span class="position">UI Designer</span>
+                                <p class="name" >Garreth Smith</p>
+
                             </div>
                         </div>
                     </div>
@@ -241,7 +241,7 @@
                             </div>
                             <div class="text text-center">
                                 <p class="mb-5 pl-4 line">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                                <p class="name">Garreth Smith</p>
+                                <p class="">Garreth Smith</p>
                                 <span class="position">Web Developer</span>
                             </div>
                         </div>
@@ -265,7 +265,6 @@
         </div>
     </div>
 </section>
-
 <hr>
 
 <section class="ftco-section ftco-partner">
@@ -289,5 +288,42 @@
         </div>
     </div>
 </section>
+
+@endsection
+
+@section('script')
+    <script src="{{asset('frontEnd/js/jquery-3.5.1.min.js')}}"></script>
+
+    <script>
+        function addProduct(event) {
+
+            var id='';
+            id  = $(event).data("id");
+            console.log(id);
+            let _url = `/addCart/${id}`;
+            console.log(_url);
+
+            let _token   = $('meta[name="csrf-token"]').attr('content');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': _token
+                }
+            });
+            $.ajax({
+                url: _url,
+                type: 'get',
+                data: {
+                    _token: _token
+                },
+                success: function(response) {
+                    var card_items=parseInt(document.getElementById('totalCart').innerText);
+                    card_items+=1;
+                    document.getElementById('totalCart').innerText=card_items;
+
+                }
+            });
+        }
+
+    </script>
 
 @endsection
