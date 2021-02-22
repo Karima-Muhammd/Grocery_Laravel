@@ -143,7 +143,7 @@
                                 <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
                                     <span><i class="ion-ios-menu"></i></span>
                                 </a>
-                                <a data-id="{{$product->id}}" type="submit"  class=" btn buy-now d-flex justify-content-center align-items-center">
+                                <a  type="submit"  class=" btn buy-now d-flex justify-content-center align-items-center">
                                     <i data-id="{{$product->id}}" onclick="addProduct(event.target)"  class="ion-ios-cart"></i>
                                 </a>
                                 <a href="#" class="heart d-flex justify-content-center align-items-center ">

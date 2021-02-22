@@ -102,7 +102,10 @@ class UserController extends Controller
 //        $user->delete();
 
     }
-
+    public function Track()
+    {
+        return view('client.track');
+    }
     public function login()
     {
         return view('admin.login');

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\PayOrder;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use RealRashid\SweetAlert\Facades\Alert;
 use Stripe\Stripe;
+use Notification;
 
 class CheckoutController extends Controller
 {
@@ -39,7 +41,7 @@ class CheckoutController extends Controller
         $user->save();
         foreach (session()->get('cart')->items as $item )
         {
-            $user->orders()->create([
+            $order=$user->orders()->create([
                 'product_name'=>$item['name'],
                 'product_price'=>$item['price'],
                 'img'=>$item['img'],
@@ -49,6 +51,7 @@ class CheckoutController extends Controller
                 'total_price'=>session()->get('cart')->totalPrice
             ]);
         }
+        Notification::send(User::find(1),new PayOrder($order));
         session()->forget('cart');
         session()->forget('user');
         toast("Payment was done , Thanks ",'success');

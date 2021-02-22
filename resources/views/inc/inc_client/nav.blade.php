@@ -21,7 +21,9 @@
                     </div>
                 </li>
                 <li class="nav-item cta cta-colored"><a href="{{route('cart.view')}}" class="nav-link"><span class="icon-shopping_cart"></span>[<span id="totalCart">{{session()->has('cart')?session()->get('cart')->totalQty:0}}</span>]</a></li>
-                <li class="nav-item"><a href="{{route('login')}}" class="nav-link">Login</a></li>
+                <li class="nav-item"><a href="{{route('Track')}}" class="nav-link">Track Your Order</a></li>
+                <li class="nav-item"><a class="nav-link">|</a></li>
+                <li class="nav-item"><a href="{{route('login')}}" class="nav-link">Admins</a></li>
 
             </ul>
         </div>

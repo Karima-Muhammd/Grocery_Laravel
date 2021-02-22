@@ -35,9 +35,11 @@
         </div>
         <div class="col-md-5 " style="margin-top: 30px">
             <p><strong>ORDER NAME :</strong> {{$order[0]->order_id}} </p>
+            <p><strong>ORDER BY :</strong> {{$order[0]->user->name}} </p>
+            <p><strong>ORDER Email :</strong> {{$order[0]->user->email}} </p>
             <p><strong>TOTAL PRICE :</strong> {{$order[0]->total_price}} EGP</p>
             <p><strong>STATUS :</strong> {{$order[0]->status}}</p>
-            <label>Update Status:</label>
+            <strong>Update Status:</strong>
             <form id="editStatus" data-id="{{ $order[0]->order_id}}" class="form-group" action="{{route('Status.save',$order[0]->order_id)}}" method="post">
                 @csrf
                 <select name="status" class="form-select  input-group mb-3" aria-label="Default select example">
@@ -71,7 +73,7 @@
             let client_data= new FormData($("#editStatus")[0])
             console.log(client_data)
             var id  = $("#editStatus").data("id");
-            let _url = `/Order/save/${id}`;
+            let _url = `/Admin/Order/save/${id}`;
             //  console.log(cate_date.get('name'))
             $.ajax({
                 type:"post",

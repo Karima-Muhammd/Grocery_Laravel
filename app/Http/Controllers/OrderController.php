@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\PayOrder;
 use App\Order;
 use App\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Notifications\DatabaseNotification;
 class OrderController extends Controller
 {
     /**
@@ -49,8 +52,9 @@ class OrderController extends Controller
      */
     public function show($order_id)
     {
-
         $order_details=Order::where('order_id','=',$order_id)->get();
+        $notify=Auth::user()->notifications()->where('data->order_id','=',$order_id)->first();
+        $notify->markAsRead();
         return view('admin.orders.view',['order'=>$order_details]);
     }
 

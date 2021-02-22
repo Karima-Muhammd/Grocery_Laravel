@@ -40,6 +40,7 @@ Route::middleware('Not_Authenticated')->group(function (){
     Route::post('/login','UserController@do_login')->name('Admin.do.login');
 });
 //admin dashboard
+Route::get('/Track-Your-Order','UserController@Track')->name('Track');
 
 //category
 Route::resource('category','CategoryController');
