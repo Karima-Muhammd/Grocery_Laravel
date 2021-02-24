@@ -4,9 +4,7 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="oi oi-menu"></span> Menu
         </button>
-@if(session()->has('user'))
 
-        @endif
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active"><a href="{{route('home')}}" class="nav-link">Home</a></li>
@@ -20,10 +18,12 @@
                         @endif
                     </div>
                 </li>
+
+
                 <li class="nav-item cta cta-colored"><a href="{{route('cart.view')}}" class="nav-link"><span class="icon-shopping_cart"></span>[<span id="totalCart">{{session()->has('cart')?session()->get('cart')->totalQty:0}}</span>]</a></li>
-                <li class="nav-item"><a href="{{route('Track')}}" class="nav-link">Track Your Order</a></li>
+                <li class="nav-item"><a @if(!auth()->check() || auth()->user()->role !='user') type="button" data-toggle="modal" data-target="#exampleModal"  @endif  href="{{route('Track')}}"  class="nav-link">Track Your Order</a></li>
                 <li class="nav-item"><a class="nav-link">|</a></li>
-                <li class="nav-item"><a href="{{route('login')}}" class="nav-link">Admins</a></li>
+                <li class="nav-item"><a @auth @if(auth()->user()->role=='admin' ) href="{{route('admin_index')}}" @endif href="{{route('login')}}"  @endauth  href="{{route('login')}}"  class="nav-link">Admins</a></li>
 
             </ul>
         </div>

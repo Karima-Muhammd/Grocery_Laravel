@@ -87,7 +87,43 @@
         </div>
     </div>
 </section>
+<!-- Button trigger modal -->
 
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="font-family: 'Agency FB',serif" id="exampleModalLabel">Track Your Order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="{{route('Login_Track')}}" method="post">
+                    @csrf
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword">Password</label>
+                        <input type="password" name="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter order password">
+                    </div>
+                    <button type="submit" class="btn btn-circle btn-success">Go</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            @include('inc.errors')
+
+        </div>
+    </div>
+</div>
 <section class="ftco-section ftco-category ftco-no-pt">
     <div class="container">
         <div class="row">
@@ -132,7 +168,7 @@
                             <div class="pricing">
                                 @if($product->offer!=null)
                                 <p class="price"><span class="mr-2 price-dc">{{$product->price}} EGP</span>
-                                  <span class="price-sale"> {{$product->price-(($product->price*$product->offer)/100)}} EGP </span></p>
+                                  <span class="price-sale"> {{$product->price - (($product->price*$product->offer)/100)}} EGP </span></p>
                                 @else
                                     <span class="price-sale"> {{$product->price}} EGP </span>
                                 @endif
@@ -293,16 +329,12 @@
 
 @section('script')
     <script src="{{asset('frontEnd/js/jquery-3.5.1.min.js')}}"></script>
-
     <script>
         function addProduct(event) {
-
             var id='';
             id  = $(event).data("id");
             console.log(id);
             let _url = `/addCart/${id}`;
-            console.log(_url);
-
             let _token   = $('meta[name="csrf-token"]').attr('content');
             $.ajaxSetup({
                 headers: {

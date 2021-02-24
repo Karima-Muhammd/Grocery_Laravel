@@ -33,8 +33,10 @@
                         <tbody>
                         @if(isset($cart))
                         @foreach($cart->items as $product)
-                        <tr class="text-center">
-                            <td class="product-remove"><a href="{{route('cart.remove.item',$product['id'])}}"><span class="ion-ios-close"></span></a></td>
+                        <tr  class="text-center">
+                            <td class="product-remove">
+                                <a type="submit"  href="{{route('cart.remove.item',$product['id'] )}}" ><span class="ion-ios-close"></span></a>
+                            </td>
 
                             <td class="image-prod"><div class="img" style="background-image:url({{asset("frontEnd/images/products/".$product['img'])}})"></div></td>
 
@@ -144,4 +146,7 @@
 
     });
 </script>
+
+
+
 @endsection

@@ -16,10 +16,11 @@ class Not_Authenticated
      */
     public function handle($request, Closure $next)
     {
-        if(!Auth::user())
+        if(!Auth::check())
             return $next($request);
         else
-            return redirect(route('admin_index'));
-
+        {
+            return \redirect(route('home'));
+        }
     }
 }

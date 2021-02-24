@@ -56,6 +56,7 @@ class Kernel extends HttpKernel
         'BillingDone' => \App\Http\Middleware\BillingDone::class,
         'IsAdmin' => \App\Http\Middleware\IsAdmin::class,
         'Not_Authenticated' => \App\Http\Middleware\Not_Authenticated::class,
+        'Is_User' => \App\Http\Middleware\Is_User::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,

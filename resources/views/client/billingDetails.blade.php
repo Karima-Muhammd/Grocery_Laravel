@@ -46,6 +46,12 @@
                                 <input type="text" value="{{old('address')}}" name="address" class="form-control" placeholder="">
                             </div>
                         </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label >Enter Password to track your order</label>
+                                <input type="password" value="{{old('password')}}" name="password" class="form-control" placeholder="">
+                            </div>
+                        </div>
                     </div>
                     <button   class="btn btn-primary py-3 px-4">Place an order</button>
                 </form><!-- END -->

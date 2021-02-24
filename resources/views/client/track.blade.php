@@ -1,19 +1,30 @@
 <html>
 <head>
+    <title>Track Your Order</title>
 <style>
     body {
         color: #000;
         overflow-x: hidden;
-        height: 100%;
         background-color: #8C9EFF;
         background-repeat: no-repeat
     }
-
+    .navbar.bg-light{
+        background-color: #651FFF !important;
+    }
+    .navbar-light .navbar-brand{
+        color: white !important;
+        font-weight: bold;
+    }
+    .navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link
+    {
+        color: white !important;
+        font-weight: bold;
+    }
     .card {
         z-index: 0;
         background-color: #ECEFF1;
         padding-bottom: 20px;
-        margin-top: 90px;
+        margin-top: 20px;
         margin-bottom: 90px;
         border-radius: 10px
     }
@@ -129,35 +140,71 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
 </head>
 <body>
-<div class="container px-1 px-md-4  mx-auto" >
-    <h1 CLASS="text-center pt-5" style="font-family: 'Agency FB',serif">TRACK YOUR ORDER</h1>
-    <div class="card p-5  " style="box-shadow: 2px 1px 1px 1px rgba(1,0,0,0.2)">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">{{ 'Hi , '. auth()->user()->name }} </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto float-right">
+        </ul>
+        <ul class="navbar-nav  float-right">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{route('client_logout')}}">Logout <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container px-1 px-md-4 mb-5  mx-auto" >
+    <h1 CLASS="text-center pt-4" style="font-family: 'Agency FB',serif">TRACK YOUR ORDER</h1>
+    <div class="card p-5  " style="  box-shadow: 5px 5px 8px 5px #b7b9cc;">
+
         <div class="row d-flex justify-content-between px-3 top">
             <div class="d-flex">
-                <h5>ORDER <span class="text-primary font-weight-bold">#Y34XDHR</span></h5>
+                <h5>ORDER <span class="text-primary font-weight-bold">#{{auth()->user()->orders[0]->order_id}}</span></h5>
             </div>
             <div class="d-flex flex-column text-sm-right">
-                <p class="mb-0">Expected Arrival <span>01/12/19</span></p>
-                <p>USPS <span class="font-weight-bold">234094567242423422898</span></p>
+                <p class="mb-0 ">Expected Arrival <span class="font-weight-bold">{{auth()->user()->created_at->addDays(7)->format('Y-m-d')}}</span></p>
+                <p>Address <span class="font-weight-bold">{{auth()->user()->address}}</span></p>
             </div>
         </div> <!-- Add class 'active' to progress -->
         <div class="row d-flex justify-content-center">
             <div class="col-12">
                 <ul id="progressbar" class="text-center">
-                    <li class="active step0"></li>
-                    <li class="active step0"></li>
-                    <li class="active step0"></li>
-                    <li class=" active step0"></li>
+                    @if(auth()->user()->orders[0]->status =='Processed')
+                    <li class="active  step0"></li>
+                    <li class=" step0"></li>
+                    <li class=" step0"></li>
+                    <li class=" step0"></li>
+                    @elseif(auth()->user()->orders[0]->status =='Shipped')
+                        <li class="active  step0"></li>
+                        <li class="active  step0"></li>
+                        <li class=" step0"></li>
+                        <li class=" step0"></li>
+                    @elseif(auth()->user()->orders[0]->status =='En Route')
+                        <li class="active  step0"></li>
+                        <li class="active  step0"></li>
+                        <li class=" active step0"></li>
+                        <li class=" step0"></li>
+                    @elseif(auth()->user()->orders[0]->status =='Arrived')
+                            <li class="active  step0"></li>
+                            <li class="active  step0"></li>
+                            <li class="active step0"></li>
+                            <li class="active step0"></li>
+                    @endif
                 </ul>
             </div>
         </div>
         <div class="row justify-content-between top">
-            <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+            <div class="row d-flex icon-content">
+                <img class="icon" src="https://i.imgur.com/9nnc9Et.png">
                 <div class="d-flex flex-column">
                     <p class="font-weight-bold">Order<br>Processed</p>
                 </div>
             </div>
-            <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/u1AzR7w.png">
+            <div class="row d-flex icon-content">
+                <img class="icon" src="https://i.imgur.com/u1AzR7w.png">
                 <div class="d-flex flex-column">
                     <p class="font-weight-bold">Order<br>Shipped</p>
                 </div>

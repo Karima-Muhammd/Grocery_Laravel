@@ -15,9 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 //inc_client routes
 Route::get('/','UserController@home')->name('home');
-Route::get('/shop','UserController@shop')->name('shop');
-Route::get('/check-out','UserController@checkout')->name('checkout');
-Route::get('/register','UserController@register')->name('register');
 
 
 //inc_admin routes
@@ -35,17 +32,21 @@ Route::middleware('IsAdmin')->prefix('/Admin')->group(function (){
     Route::get('/Panel',"UserController@index_admin")->name('admin_index');
 
 });
-Route::middleware('Not_Authenticated')->group(function (){
-    Route::get('/login','UserController@login')->name('login');
-    Route::post('/login','UserController@do_login')->name('Admin.do.login');
+
+Route::middleware('Is_User')->group(function (){
+    Route::get('/Track-Your-Order','UserController@Track')->name('Track');
+    Route::get('/Track-Your-Order/Logout','UserController@client_logout')->name('client_logout');
+
 });
 //admin dashboard
-Route::get('/Track-Your-Order','UserController@Track')->name('Track');
-
-//category
-Route::resource('category','CategoryController');
-Route::resource('product','ProductController');
-//guest
+Route::middleware('Not_Authenticated')->group(function () {
+    Route::get('/login','UserController@login')->name('login');
+    Route::post('/login','UserController@do_login')->name('Admin.do.login');
+    Route::post('/Track-Your-Order','UserController@login_client')->name('Login_Track');
+});
+Route::get('/shop','UserController@shop')->name('shop');
+Route::get('/check-out','UserController@checkout')->name('checkout');
+Route::get('/register','UserController@register')->name('register');
 Route::get('/addCart/{id}','ProductController@AddToCart')->name('cart.add');
 Route::get('/shopping-cart','ProductController@Viewcart')->name('cart.view');
 Route::get('/RemoveItem/{id}','ProductController@RemoveItemCart')->name('cart.remove.item');
@@ -57,4 +58,10 @@ Route::middleware('BillingDone')->group(function ()
     Route::get('checkout','CheckoutController@checkout')->name('credit-card');
     Route::post('checkout','CheckoutController@afterpayment')->name('checkout.credit-card');
 });
-Route::get('/test/{id}',"UserController@test")->name('test');
+
+
+Route::resource('category','CategoryController');
+Route::resource('product','ProductController');
+
+
+Route::get('/test',"UserController@test")->name('test');

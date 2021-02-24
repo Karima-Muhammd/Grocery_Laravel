@@ -43,13 +43,48 @@ class UserController extends Controller
             'name'=>'required|',
             'email'=>'required|email|max:100|unique:users,email',
             'address'=>'required|string',
+            'password'=>'required|max:5',
             'phone'=>'required|numeric',
         ]);
 
-        User::create($request->all());
+        User::create([
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'address'=>$request->address,
+            'phone'=>$request->phone,
+            'password'=>Hash::make($request->password),
+        ]);
         Session::put('user',$request->all());
         return redirect(route('credit-card'));
 
+    }
+    public function login_client(Request $request)
+    {
+        $request->validate([
+            'email'=>'required|email|exists:App\User,email',
+            'password'=>'required'
+        ]);
+        $user=User::where('email','=',$request->email)->first();
+        if($user->status==1) {
+            Auth::attempt(['email' => $request->email, 'password' => $request->password]);
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                if (Auth::user()->role == "admin")
+                    return redirect(route('admin_index'));
+                elseif (Auth::user()->role == "user")
+                    return redirect(route('Track'));
+            } else {
+                return redirect(route('home'))->withErrors([
+                    'error_key' => "Password isn't match Email"
+                ]);
+            }
+        }
+        else
+            return redirect(route('Login_auth'))->withErrors(['error_key' => "YOUR ACCOUNT IS DEACTIVATE !!! "]);
+    }
+    public function client_logout()
+    {
+        Auth::logout();
+        return redirect(route('home'));
     }
 //// role=admin
     public function index_admin()
@@ -91,14 +126,13 @@ class UserController extends Controller
             'success'=>"Successfully Deleted"
         ]);
     }
-    public function test($id)
+    public function test()
     {
-        $orders=Order::where('order_id','=',$id)->get();
-        $user=Order::select('user_id')->where('order_id','=',$id)->first();
-        $real_user=User::find($user->user_id);
-        dd($real_user);
+        $user=User::where('email','=','karima.muhammd@gmail.com')->first();
 
-        dd($user->orders);
+        if($user->role=='user') {
+            dd(Auth::attempt(['email'=>$user->email,'password'=>$user->id]));
+        }
 //        $user->delete();
 
     }
