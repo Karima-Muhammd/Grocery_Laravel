@@ -24,7 +24,6 @@
                 <li class="nav-item"><a @if(!auth()->check() || auth()->user()->role !='user') type="button" data-toggle="modal" data-target="#exampleModal"  @endif  href="{{route('Track')}}"  class="nav-link">Track Your Order</a></li>
                 <li class="nav-item"><a class="nav-link">|</a></li>
                 <li class="nav-item"><a @auth @if(auth()->user()->role=='admin' ) href="{{route('admin_index')}}" @endif href="{{route('login')}}"  @endauth  href="{{route('login')}}"  class="nav-link">Admins</a></li>
-
             </ul>
         </div>
     </div>

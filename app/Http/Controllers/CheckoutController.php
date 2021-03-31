@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Notifications\PayOrder;
+use App\Notifications\TrackNotification;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -52,6 +53,7 @@ class CheckoutController extends Controller
             ]);
         }
         Notification::send(User::find(1),new PayOrder($order));
+        Notification::send($user,new TrackNotification($user,$order));
         session()->forget('cart');
         session()->forget('user');
         toast("Payment was done , Thanks ",'success');

@@ -60,7 +60,6 @@ class ProductController extends Controller
         $img_name='product'.uniqid().".$ext";
         $img->move(public_path('frontEnd/images/products/'),$img_name);
 
-
         if($request->status=='on')
             $status=1;
         else
@@ -89,12 +88,6 @@ class ProductController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
-     */
     public function edit($id)
     {
         $product=Product::find($id);
@@ -133,7 +126,6 @@ class ProductController extends Controller
             $ext=$img->getClientOriginalExtension();
             $img_name='product'.uniqid().".$ext";
             $img->move(public_path('frontEnd/images/products/'),$img_name);
-
         }
 
         if($request->status=='on')
